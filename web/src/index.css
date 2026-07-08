@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+:root { color-scheme: dark; }
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: #0a0f0d;
+  color: #e7efe9;
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.leaflet-container { background: #0d1512; font-family: inherit; }
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #1f3a2e; border-radius: 8px; }

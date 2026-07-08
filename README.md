@@ -47,12 +47,16 @@ Prereqs: Docker, Node ≥ 20.
 # 1. Start Postgres + PostGIS (port 5544)
 docker compose up -d
 
-# 2. Backend — install, create schema, seed demo data, serve on :4000
-cd server && npm install && npm run db:reset && npm start
+# 2. Backend — install, build, create schema + seed, serve on :4000
+cd server && npm install && npm run db:reset && npm run serve
 
 # 3. Frontend — dev server on :5180 (proxies /api → :4000)
 cd ../web && npm install && npm run dev
 ```
+
+The backend is bundled to a single file with esbuild (`npm run build`) and run
+with plain `node` (`npm run serve`) — `npm run db:reset` builds, applies the
+schema, and seeds. `npm start` = build + serve. (`npm run typecheck` runs `tsc`.)
 
 Open **http://localhost:5180**.
 

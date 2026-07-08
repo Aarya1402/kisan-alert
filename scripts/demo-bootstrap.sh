@@ -6,7 +6,12 @@ API="${API:-http://localhost:4000/api}"
 cd "$(dirname "$0")/../server"
 
 echo "→ Resetting database (migrate + seed)…"
-npm run --silent db:reset
+# Use the prebuilt single-file bundles if present (reliable), else full reset.
+if [ -f dist/migrate.cjs ] && [ -f dist/seed.cjs ]; then
+  node dist/migrate.cjs && node dist/seed.cjs
+else
+  npm run --silent db:reset
+fi
 
 echo "→ Running advisory sweep (dry-spell / soil-moisture / heat scan)…"
 curl -s -X POST "$API/advisory/run" -H 'content-type: application/json' -d '{}' \

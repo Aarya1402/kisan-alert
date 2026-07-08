@@ -1,12 +1,20 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
 import { pool } from './pool.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// Read schema from the source tree relative to cwd (npm runs from server/),
+// so this works identically whether run via tsx, node, or an esbuild bundle.
+function schemaPath(): string {
+  const candidates = [
+    join(process.cwd(), 'src/db/schema.sql'),
+    join(process.cwd(), 'dist/schema.sql'),
+    join(process.cwd(), 'schema.sql'),
+  ];
+  return candidates.find(existsSync) || candidates[0];
+}
 
 async function main() {
-  const sql = readFileSync(join(__dirname, 'schema.sql'), 'utf8');
+  const sql = readFileSync(schemaPath(), 'utf8');
   await pool.query(sql);
   console.log('✓ Schema applied');
   await pool.end();

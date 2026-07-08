@@ -1,0 +1,1 @@
+const t=setTimeout(()=>{console.log('TIMEOUT');process.exit(2)},9000);import('./src/services/telephony.ts').then(()=>{console.log('OK');clearTimeout(t);process.exit(0)}).catch(e=>{console.log('ERR',e.message);process.exit(1)})

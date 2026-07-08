@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
     container_name: kisan-alert-api-prod
     restart: always
+    env_file:
+      - ./server/.env
     environment:
       PORT: 4000
       DATABASE_URL: postgres://kisan:production_secure_password@db:5432/kisan_alert
